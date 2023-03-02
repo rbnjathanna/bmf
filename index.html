@@ -7,6 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <title>Be My Friend</title>
+        <link rel="icon" href="./images/favicon.png">
         <link rel="stylesheet" href="./styles/bootstrap.min.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,8 +22,11 @@
             <img src="./images/logo.jpg" />
         </header>
         <div class='section-1'>
-            <video width="100%" controls autoplay muted playsinline loop style="pointer-events: none;">
+            <video width="100%" id="video-web" controls autoplay muted playsinline loop style="pointer-events: none;">
                 <source src="./video/top-section-video.mp4" type="video/mp4">
+            </video>
+            <video width="100%" id="video-mob" controls autoplay muted playsinline loop style="pointer-events: none;">
+                <source src="./video/top-section-video-mobile.mp4" type="video/mp4">
             </video>
             <a href="#down" id="headbottom" class='pulse'>
                 <img src="./images/downarrow.svg" />
