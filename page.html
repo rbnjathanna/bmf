@@ -96,7 +96,8 @@
                     }
                     var bounds = new google.maps.LatLngBounds();
                     marker.setPosition(place.geometry.location);
-                    console.log(place.geometry.location);
+                    console.log(place.geometry.location.lat());
+                    console.log(place.geometry.location.lng());
                     if (place.geometry.viewport) {
                         // Only geocodes have viewport.
                         bounds.union(place.geometry.viewport);
