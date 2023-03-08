@@ -30,12 +30,14 @@
                 });
             }
 
-            var autocomplete = new google.maps.places.Autocomplete($("#address")[0], {});
+            function getLocation(){
+                var autocomplete = new google.maps.places.Autocomplete($("#address")[0], {});
 
-            google.maps.event.addListener(autocomplete, 'place_changed', function() {
-                var place = autocomplete.getPlace();
-                console.log(place.address_components);
-            });
+                google.maps.event.addListener(autocomplete, 'place_changed', function() {
+                    var place = autocomplete.getPlace();
+                    console.log(place.address_components);
+                });
+            }
         </script>
     </head>
 
@@ -45,6 +47,7 @@
             <input id="address" type="textbox" value="Sydney, NSW">
             <input type="button" value="Encode" onclick="codeAddress()">
             <input type="text" id="address" style="width: 500px;"></input>
+            <input type="button" value="getLocation" onclick="getLocation()">
         </div>
     </body>
 </html>
