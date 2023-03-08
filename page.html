@@ -2,6 +2,30 @@
     <head>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCex-4bQ2wYJnDV-258CN-Vs7twaUOin_c&libraries=places&callback=initMap&v=weekly" defer></script>
+
+        <style>
+            #map {
+                height: 100%;
+            }
+
+            html,body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            #my-input-searchbox {
+                box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
+                font-size: 15px;
+                border-radius: 3px;
+                border: 0;
+                margin-top: 10px;
+                width: 270px;
+                height: 40px;
+                text-overflow: ellipsis;
+                padding: 0 1em;
+            }
+        </style>
         <script>
             /* var geocoder;
             var map;
@@ -72,7 +96,7 @@
                     }
                     var bounds = new google.maps.LatLngBounds();
                     marker.setPosition(place.geometry.location);
-
+                    console.log(place.geometry.location);
                     if (place.geometry.viewport) {
                         // Only geocodes have viewport.
                         bounds.union(place.geometry.viewport);
