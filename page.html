@@ -30,22 +30,12 @@
                 });
             }
 
-            function initService() {
-                const displaySuggestions = function (predictions, status) {
-                    if (status != google.maps.places.PlacesServiceStatus.OK || !predictions) {
-                        alert(status);
-                        return;
-                    }
-                    predictions.forEach((prediction) => {
-                        const li = document.createElement("li");
-                        li.appendChild(document.createTextNode(prediction.description));
-                        document.getElementById("results").appendChild(li);
-                    });
-                };
-                const service = new google.maps.places.AutocompleteService();
-                service.getQueryPredictions({ input: "pizza near Syd" }, displaySuggestions);
-            }
-            window.initService = initService;
+            var autocomplete = new google.maps.places.Autocomplete($("#address")[0], {});
+
+            google.maps.event.addListener(autocomplete, 'place_changed', function() {
+                var place = autocomplete.getPlace();
+                console.log(place.address_components);
+            });
         </script>
     </head>
 
@@ -54,7 +44,7 @@
         <div>
             <input id="address" type="textbox" value="Sydney, NSW">
             <input type="button" value="Encode" onclick="codeAddress()">
-            <ul id="results"></ul>
+            <input type="text" id="address" style="width: 500px;"></input>
         </div>
     </body>
 </html>
