@@ -120,14 +120,25 @@
 
             function formSubmit(){
                 console.log($("#my-input-searchbox").val());
-                const xhttp = new XMLHttpRequest();
+                $http({ 
+                    url: "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input="+$("#bmf_address").val()+"&inputtype=textquery&fields=formatted_address%2Cname%2Crating%2Copening_hours%2Cgeometry&key="+ api_key,
+                    method: "GET",                 
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    }    
+                })
+                .success(function(response) {
+                    let data = JSON.parse(this.responseText);
+                    console.log(data);
+                }) 
+                /*const xhttp = new XMLHttpRequest();
                 xhttp.onload = function() {
                     let data = JSON.parse(this.responseText);
                     console.log(data);
                 }
 
                 xhttp.open("GET", "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input="+$("#bmf_address").val()+"&inputtype=textquery&fields=formatted_address%2Cname%2Crating%2Copening_hours%2Cgeometry&key="+ api_key);
-                xhttp.send();
+                xhttp.send(); */
             }
         </script>
     </head>
