@@ -12,10 +12,11 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
         <style>
-            #bmf-pt-dtls {
+            .bmf-pt-dtls {
                 display: block;
+                padding: 1.5rem;
             }
-            #bmf-pt-locate{
+            .bmf-pt-locate{
                 display: none;
             }
             #map {
@@ -44,6 +45,12 @@
                 border-radius: 5px;
                 margin-top: 10px;
                 text-overflow: ellipsis;
+            }
+            #save_dtls{
+                width:40px;
+                position: absolute;
+                right:2rem;
+                top: 15px;
             }
         </style>
 
@@ -147,12 +154,10 @@
             </div>
         </div>
         <div class='bmf-pt-locate'>
-            <div class="form-group">
-                <label for="bmf_contact_number">BMF Pt Contact Number</label>
+            <div class="form-group" style="position: relative;">
+                <label for="bmf_contact_number">BMF Locate Pt</label>
                 <input id="my-input-searchbox" class="form-control" type="text" placeholder="Autocomplete Widget">
-            </div>
-            <div class="form-group">
-                <button class="btn" onclick="formSubmit()">Submit</button>
+                <img src="./images/save.png" id="save_dtls" onclick="formSubmit()" />
             </div>
             <div id="map"></div>
         </div>
