@@ -1,0 +1,160 @@
+<html>
+    <head>
+        <title>BMF Points</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCex-4bQ2wYJnDV-258CN-Vs7twaUOin_c&libraries=places&callback=initMap&v=weekly" defer></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+        <style>
+            #bmf-pt-dtls {
+                display: block;
+            }
+            #bmf-pt-locate{
+                display: none;
+            }
+            #map {
+                height: 100%;
+            }
+
+            html,body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            .form-control{
+                width: 100%;
+                height: 45px;
+                font-size: 13px;
+                border-radius: 5px;
+                color: #777;
+                padding: 0 1em;
+                border: 1px solid #e0e0e0;
+            }
+            .form-control:focus{
+                border-color: #e0e0e0;
+            }
+            #my-input-searchbox {
+                box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
+                border-radius: 5px;
+                margin-top: 10px;
+                text-overflow: ellipsis;
+            }
+        </style>
+
+        <script>
+            const api_key = "AIzaSyCex-4bQ2wYJnDV-258CN-Vs7twaUOin_c";
+            function initAutocomplete() {
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    center: {
+                        lat: 48,
+                        lng: 4
+                    },
+                    zoom: 4,
+                    disableDefaultUI: true
+                });
+
+                // Create the search box and link it to the UI element.
+                var input = document.getElementById('my-input-searchbox');
+                var autocomplete = new google.maps.places.Autocomplete(input);
+                map.controls[google.maps.ControlPosition.TOP_CENTER].push(input);
+                var marker = new google.maps.Marker({
+                    map: map
+                });
+
+                // Bias the SearchBox results towards current map's viewport.
+                autocomplete.bindTo('bounds', map);
+                // Set the data fields to return when the user selects a place.
+                autocomplete.setFields(['address_components', 'geometry', 'name']);
+
+                // Listen for the event fired when the user selects a prediction and retrieve
+                // more details for that place.
+                autocomplete.addListener('place_changed', function() {
+                    var place = autocomplete.getPlace();
+                    if (!place.geometry) {
+                        console.log("Returned place contains no geometry");
+                        return;
+                    }
+                    var bounds = new google.maps.LatLngBounds();
+                    marker.setPosition(place.geometry.location);
+                    console.log(place.geometry.location.lat());
+                    console.log(place.geometry.location.lng());
+                    if (place.geometry.viewport) {
+                        // Only geocodes have viewport.
+                        bounds.union(place.geometry.viewport);
+                    } else {
+                        bounds.extend(place.geometry.location);
+                    }
+                    map.fitBounds(bounds);
+                });
+            }
+
+            function nextPage() {
+                let obj = {
+                    bmf_name: $("#bmf_name").val(),
+                    bmf_address: $("#bmf_address").val(),
+                    bmf_landmark: $("#bmf_landmark").val(),
+                    bmf_contact_person: $("#bmf_contact_person").val(),
+                    bmf_contact_number: $("#bmf_contact_number").val()
+                }
+                console.log(obj);
+                initAutocomplete();
+            }
+
+            function formSubmit(){
+                console.log($("#my-input-searchbox").val());
+                const xhttp = new XMLHttpRequest();
+                xhttp.onload = function() {
+                    let data = JSON.parse(this.responseText);
+                    console.log(data);
+                }
+
+                xhttp.open("GET", "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input="+$("#bmf_address").val()+"&inputtype=textquery&fields=formatted_address%2Cname%2Crating%2Copening_hours%2Cgeometry&key="+ api_key);
+                xhttp.send();
+            }
+        </script>
+    </head>
+
+    <body>
+        <div class='bmf-pt-dtls'>
+            <div class="form-group">
+                <label for="bmf_name">BMF Pt Name</label>
+                <input type="text" class="form-control" id="bmf_name" />
+            </div>
+            <div class="form-group">
+                <label for="bmf_address">BMF Pt Address</label>
+                <input type="text" class="form-control" id="bmf_address" />
+            </div>
+            <div class="form-group">
+                <label for="bmf_landmark">BMF Pt Landmark</label>
+                <input type="text" class="form-control" id="bmf_landmark" />
+            </div>
+            <div class="form-group">
+                <label for="bmf_contact_person">BMF Pt Contact Person</label>
+                <input type="text" class="form-control" id="bmf_contact_person" />
+            </div>
+            <div class="form-group">
+                <label for="bmf_contact_number">BMF Pt Contact Number</label>
+                <input type="text" class="form-control" id="bmf_contact_number" />
+            </div>
+            <div class="form-group">
+                <button class="btn" onclick="nextPage()">Next</button>
+            </div>
+        </div>
+        <div class='bmf-pt-locate'>
+            <div class="form-group">
+                <label for="bmf_contact_number">BMF Pt Contact Number</label>
+                <input id="my-input-searchbox" class="form-control" type="text" placeholder="Autocomplete Widget">
+            </div>
+            <div class="form-group">
+                <button class="btn" onclick="formSubmit()">Submit</button>
+            </div>
+            <div id="map"></div>
+        </div>
+    </body>
+</html>
